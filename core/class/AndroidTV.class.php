@@ -220,6 +220,7 @@ class AndroidTV extends eqLogic{
 		$this->addCmd("disney","action","other",array('categorie'=> "appli",'icon'=>"disney.png",'commande'=>"shell monkey -p com.disney.disneyplus -c android.intent.category.LAUNCHER 1"));
 		$this->addCmd("rakutentv","action","other",array('categorie'=> "appli",'icon'=>"rakutentv.png",'commande'=>"shell monkey -p tv.wuaki.apptv -c android.intent.category.LAUNCHER 1"));
 		$this->addCmd("molotov","action","other",array('categorie'=> "appli",'icon'=>"molotov.png",'commande'=>"shell monkey -p tv.molotov.app -c android.intent.category.LAUNCHER 1"));
+        $this->addCmd("emby","action","other",array('categorie'=> "appli",'icon'=>"emby.png",'commande'=>"shell monkey -p tv.emby.embyatv -c android.intent.category.LAUNCHER 1"));
 		$this->addCmd("spotify","action","other",array('categorie'=> "appli",'icon'=>"spotify.png",'commande'=>"shell monkey -p com.spotify.tv.android -c android.intent.category.LAUNCHER 1"));
 		$this->addCmd("amazonvideo","action","other",array('categorie'=> "appli",'icon'=>"amazonvideo.png",'commande'=>"shell am start -a android.intent.action.VIEW -n com.amazon.amazonvideo.livingroom/com.amazon.ignition.IgnitionActivity"));
 		$this->addCmd("vevo","action","other",array('categorie'=> "appli",'icon'=>"vevo.jpg",'commande'=>"shell monkey -p com.vevo -c android.intent.category.LAUNCHER 1"));
@@ -243,6 +244,8 @@ class AndroidTV extends eqLogic{
 		$this->addCmd("HboMax","action","other",array('categorie'=> "appli",'icon'=>"HboMax.png",'commande'=>"shell am start com.hbo.hbonow/com.hbo.max.HboMaxActivity"));
 		$this->addCmd("tvplayer","action","other",array('categorie'=> "appli",'icon'=>"tvplayer.png",'commande'=>"shell monkey -p ar.tvplayer.tv -c android.intent.category.LAUNCHER 1"));
 		$this->addCmd("YoutubeKids","action","other",array('categorie'=> "appli",'icon'=>"YoutubeKids.png",'commande'=>"shell monkey -p com.google.android.youtube.tvkids -c android.intent.category.LAUNCHER 1"));
+      	$this->addCmd("hdhomerun","action","other",array('categorie'=> "appli",'icon'=>"hdhomerun.png",'commande'=>"shell monkey -p com.silicondust.view -c android.intent.category.LAUNCHER 1"));
+      
 		try{
 			$sudo = exec("\$EUID");
 			if ($sudo != "0")
@@ -322,11 +325,15 @@ class AndroidTV extends eqLogic{
 			$encours = $this->getCmd(null, 'encours');
           
  			//Remplacement de wuaki par rakutentv car app tv.wuaki.apptv = rakutentv
-         		if (stristr($infos['encours'], 'wuaki')){
-             		 	$infos['encours'] = str_replace("wuaki","rakutentv",$infos['encours']);
-          			log::add('AndroidTV', 'debug', 'Remplacement wuaki par rakutentv car app tv.wuaki.apptv = rakutentv '.$infos['encours']);
-           		 }
-          	
+         	if (stristr($infos['encours'], 'wuaki')){
+             	$infos['encours'] = str_replace("wuaki","rakutentv",$infos['encours']);
+          		log::add('AndroidTV', 'debug', 'Remplacement wuaki par rakutentv car app tv.wuaki.apptv = rakutentv '.$infos['encours']);
+           	}
+          	//Remplacement de wuaki par rakutentv car app tv.wuaki.apptv = rakutentv
+         	if (stristr($infos['encours'], 'silicondust')){
+             	$infos['encours'] = str_replace("silicondust","hdhomerun",$infos['encours']);
+          		log::add('AndroidTV', 'debug', 'Remplacement silicondust par hdhomerun car app com.silicondust.view = hdhomerun '.$infos['encours']);
+           	}
 			$app_known = 0;
 			foreach ($this->getCmd() as $cmd) {
 				if (stristr($infos['encours'], $cmd->getName())){
@@ -543,4 +550,3 @@ class AndroidTVCmd extends cmd{
 		}
 	}
 }
-
