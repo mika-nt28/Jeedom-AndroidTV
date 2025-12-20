@@ -122,7 +122,7 @@ class AndroidTV extends eqLogic{
     			log::add('AndroidTV','error','Exception reçue : ',  $e->getMessage());
 		}
 	}
-	public function connectADB($_ip_address = null) {
+	public static function connectADB($_ip_address = null) {
 		try{
 			$sudo = exec("\$EUID");
 			if ($sudo != "0") 
@@ -543,3 +543,4 @@ class AndroidTVCmd extends cmd{
 		}
 	}
 }
+
