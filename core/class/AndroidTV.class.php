@@ -92,7 +92,7 @@ class AndroidTV extends eqLogic{
 		try{
 			$type_connection = $this->getConfiguration('type_connection');
 			$ip_address = $this->getConfiguration('ip_address');
-			$sudo = exec("\$EUID");
+			$sudo = posix_geteuid();
 			if ($sudo != "0") {
 				$sudo_prefix = "sudo ";
 			}
@@ -110,7 +110,7 @@ class AndroidTV extends eqLogic{
 	}
 	public static function resetADB(){
 		try{
-			$sudo = exec("\$EUID");
+			$sudo = posix_geteuid();
 			if ($sudo != "0")
 				$sudo_prefix = "sudo ";
 			log::add('AndroidTV', 'debug', 'Arret du service ADB');
@@ -124,7 +124,7 @@ class AndroidTV extends eqLogic{
 	}
 	public static function connectADB($_ip_address = null) {
 		try{
-			$sudo = exec("\$EUID");
+			$sudo = posix_geteuid();
 			if ($sudo != "0") 
 				$sudo_prefix = "sudo ";
 			if (isset($_ip_address)) {
@@ -247,7 +247,7 @@ class AndroidTV extends eqLogic{
       	$this->addCmd("hdhomerun","action","other",array('categorie'=> "appli",'icon'=>"hdhomerun.png",'commande'=>"shell monkey -p com.silicondust.view -c android.intent.category.LAUNCHER 1"));
       
 		try{
-			$sudo = exec("\$EUID");
+			$sudo = posix_geteuid();
 			if ($sudo != "0")
 				$sudo_prefix = "sudo ";
 			if ($this->getConfiguration('type_connection') == "TCPIP") {
@@ -409,7 +409,7 @@ class AndroidTV extends eqLogic{
 	}
 	public function checkAndroidTVStatus(){
 		try{
-			$sudo = exec("\$EUID");
+			$sudo = posix_geteuid();
 			if ($sudo != "0")
 				$sudo_prefix = "sudo ";
 			$ip_address = $this->getConfiguration('ip_address');			
@@ -508,7 +508,7 @@ class AndroidTVCmd extends cmd{
 		$ARC = $this->getEqLogic();
 		$ARC->checkAndroidTVStatus();
 
-		$sudo = exec("\$EUID");
+		$sudo = posix_geteuid();
 		if ($sudo != "0")
 			$sudo_prefix = "sudo ";
 		$ip_address = $ARC->getConfiguration('ip_address');
@@ -550,3 +550,4 @@ class AndroidTVCmd extends cmd{
 		}
 	}
 }
+
